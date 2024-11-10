@@ -504,7 +504,7 @@ When life gives you lemons, make lemonade.
 | `value`    | The value that will need to match the parameter defined in `where` for the query of articles e.g. for `where` == `Type` a valid value could be `sample` |
 
 {{< alert >}}
-The `where` and `value` values are used in the following query `where .Site.RegularPages \(where \)value` in the code of the shortcode. Check [Hugo docs](https://gohugo.io/methods/page/) to learn more about which parameters are available to use.
+The `where` and `value` values are used in the following query `where .Site.RegularPages \\(where \\)value` in the code of the shortcode. Check [Hugo docs](https://gohugo.io/methods/page/) to learn more about which parameters are available to use.
 {{</ alert >}}
 
 <!-- prettier-ignore-end -->

@@ -41,12 +41,12 @@ The `body` of a snippet can use special constructs to control cursors and the te
 
 ### [Tabstops](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_tabstops)
 
-With tabstops, you can make the editor cursor move inside a snippet. Use `\(1`, `\)2` to specify cursor locations. The number is the order in which tabstops will be visited, whereas `$0` denotes the final cursor position. Multiple occurrences of the same tabstop are linked and updated in sync.
+With tabstops, you can make the editor cursor move inside a snippet. Use `\\(1`, `\\)2` to specify cursor locations. The number is the order in which tabstops will be visited, whereas `$0` denotes the final cursor position. Multiple occurrences of the same tabstop are linked and updated in sync.
 
 ### [Placeholders](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_placeholders)
 
 Placeholders are tabstops with values, like `${1:foo}`. The placeholder text will be inserted and selected such that it can be easily changed.  
-Placeholders can be nested, like `\({1:another \){2:placeholder}}`.
+Placeholders can be nested, like `\\({1:another \\){2:placeholder}}`.
 
 ### [Choice](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_choice)
 
@@ -54,7 +54,7 @@ Placeholders can have choices as values. The syntax is a comma-separated enumera
 
 ### [Variables](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_variables)
 
-With `\(name` or `\){name:default}`, you can insert the value of a variable. When a variable isn't set, its **default** or the empty string is inserted. When a variable is unknown (that is, its name isn't defined) the name of the variable is inserted and it is transformed into a placeholder.
+With `\\(name` or `\\){name:default}`, you can insert the value of a variable. When a variable isn't set, its **default** or the empty string is inserted. When a variable is unknown (that is, its name isn't defined) the name of the variable is inserted and it is transformed into a placeholder.
 
 The following variables can be used:
 
@@ -173,7 +173,7 @@ Transformations allow you to modify the value of a variable before it is inserte
 The following example inserts the name of the current file without its ending, so from `foo.txt` it makes `foo`.
 
 ```
-\({TM\_FILENAME/(.*)\\..+\)/$1/}
+\\({TM\_FILENAME/(.*)\\..+\\)/$1/}
   |           |         |  |
   |           |         |  |-> no options
   |           |         |
@@ -198,7 +198,7 @@ The examples are shown within double quotes, as they would appear inside a snipp
 |---|---|---|
 |`"${TM_FILENAME/[\\.]/_/}"`|`example-123_456-TEST.js`|Replace the first `.` with `_`|
 |`"${TM_FILENAME/[\\.-]/_/g}"`|`example_123_456_TEST_js`|Replace each `.` or `-`with `_`|
-|`"\({TM\_FILENAME/(.*)/\){1:/upcase}/}"`|`EXAMPLE-123.456-TEST.JS`|Change to all uppercase|
+|`"\\({TM\_FILENAME/(.*)/\\){1:/upcase}/}"`|`EXAMPLE-123.456-TEST.JS`|Change to all uppercase|
 |`"${TM_FILENAME/[^0-9^a-z]//gi}"`|`example123456TESTjs`|Remove non-alphanumeric characters|
 
 ### [Grammar](https://code.visualstudio.com/docs/editor/userdefinedsnippets#_grammar)
@@ -212,15 +212,15 @@ tabstop     ::= '$' int
                 | '${' int  transform '}'
 placeholder ::= '${' int ':' any '}'
 choice      ::= '${' int '|' text (',' text)* '|}'
-variable    ::= '\(' var | '\){' var '}'
+variable    ::= '\\(' var | '\\){' var '}'
                 | '${' var ':' any '}'
                 | '${' var transform '}'
 transform   ::= '/' regex '/' (format | text)+ '/' options
-format      ::= '\(' int | '\){' int '}'
+format      ::= '\\(' int | '\\){' int '}'
                 | '${' int ':' '/upcase' | '/downcase' | '/capitalize' | '/camelcase' | '/pascalcase' '}'
                 | '${' int ':+' if '}'
                 | '${' int ':?' if ':' else '}'
-                | '\({' int ':-' else '}' | '\){' int ':' else '}'
+                | '\\({' int ':-' else '}' | '\\){' int ':' else '}'
 regex       ::= JavaScript Regular Expression value (ctor-string)
 options     ::= JavaScript Regular Expression option (ctor-options)
 var         ::= [_a-zA-Z] [_a-zA-Z0-9]*

@@ -49,7 +49,7 @@ jobs:
   build-deploy:
     runs-on: ubuntu-20.04
     concurrency:
-      group: \({{ github.workflow }}-\){{ github.ref }}
+      group: \\({{ github.workflow }}-\\){{ github.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

@@ -27,7 +27,7 @@ The next sections will give examples of each of the above.
 
 In the simplest case, you can use snippets to insert text that you do not want to type again and again, either because you type it a lot, or because the actual text to insert is hard to remember (like your bank account details or the HTML entities for the Apple modifier keys).
 
-If you use snippets to insert plain text there is only one thing you should be aware of: `\(` and `` ` `` are reserved characters. So if you want to insert one of these, prefix it with an escape (i.e. `\\)`). An escape not followed by one of these two characters (or followed by another escape) will be inserted as a literal character.
+If you use snippets to insert plain text there is only one thing you should be aware of: `\\(` and `` ` `` are reserved characters. So if you want to insert one of these, prefix it with an escape (i.e. `\\\)`). An escape not followed by one of these two characters (or followed by another escape) will be inserted as a literal character.
 
 ## Variables
 
@@ -48,7 +48,7 @@ The default value can itself contain variables or shell code. If you want the de
 Variables also support regular expression replacements using this syntax: `${«variable»/«regexp»/«format»/«options»}`. If the variable is not set the replacement will be performed on the empty string. For example, to prepend a bullet to each non-empty line in the selection (and insert that) we can do:
 
 ```
-\({TM\_SELECTED\_TEXT/^.+\)/• $0/g}
+\\({TM\_SELECTED\_TEXT/^.+\\)/• $0/g}
 ```
 
 ## Interpolated Shell Code
@@ -82,7 +82,7 @@ After insertion, the caret will be placed after the last character of the snippe
 </div>
 ```
 
-Often though we want to fill in text in several places in the snippet. Multiple tab stops can be provided by inserting `\(1`-`\)n`. The caret will start at `\(1`, then when pressing tab it will move to `\)2` and `\(3` on next tab etc. until there are no more tab stops. If you do not explicitly set `\)0`, the caret will be at the end of the snippet.
+Often though we want to fill in text in several places in the snippet. Multiple tab stops can be provided by inserting `\\(1`-`\\)n`. The caret will start at `\\(1`, then when pressing tab it will move to `\\)2` and `\\(3` on next tab etc. until there are no more tab stops. If you do not explicitly set `\\)0`, the caret will be at the end of the snippet.
 
 So we could for example change the above to:
 
@@ -99,7 +99,7 @@ This allows us to fill in an argument and then tab on to `$0`.
 Like variables, tab stops can also have default values (and are generally referred to as placeholders when they do). The syntax is the same: `${«tab stop»:«default value»}`. And the default value can contain both text, shell code and other placeholders. So we can refine the previous example further:
 
 ```
-<div\({1: id="\){2:some_id}"}>
+<div\\({1: id="\\){2:some_id}"}>
     $0
 </div>
 ```
@@ -144,12 +144,12 @@ As an example, the Objective-C getter/setter methods (prior to the `@property`�
 In the format string we can use `${«var»:/upcase}` to uppercase the matched character, so a snippet that only asks for the name of the instance variable once could look like this:
 
 ```
-- (\({1:id})\){2:foo}
+- (\\({1:id})\\){2:foo}
 {
     return $2;
 }
 
-- (void)set\({2/./\){0:/upcase}/}:($1)aValue
+- (void)set\\({2/./\\){0:/upcase}/}:($1)aValue
 {
     [$2 autorelease];
     $2 = [aValue retain];
@@ -159,8 +159,8 @@ In the format string we can use `${«var»:/upcase}` to uppercase the matched 
 We can also use conditional insertions in the format string (`${«var»:+«if-set»}`) to make decisions. For example if we create a snippet for a method we can let the return type decide whether or not the method should include a `return` statement like this:
 
 ```
-- (\({1:void})\){2:methodName}
-{\({1/void\)|(.+)/${1:+\n\treturn nil;}/}
+- (\\({1:void})\\){2:methodName}
+{\\({1/void\\)|(.+)/${1:+\n\treturn nil;}/}
 }
 ```
 
