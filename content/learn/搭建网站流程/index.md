@@ -27,7 +27,7 @@ my-site/
 └── hugo.toml   
 ```
 
-### 模板
+### 模板是什么
 
 hugo主题商店提供了多种多样的模板，大家可以根据喜好选择模板下载并使用，本网站使用的模板为[Blowfish](https://themes.gohugo.io/themes/blowfish)
 
@@ -51,7 +51,7 @@ Blowfish提供了工具Blowfish-Tools，用于创建一个新的 Hugo 项目、�
 
 [文档](https://gohugo.io/installation/)提供三种方式安装Blowfish模板，包括Git子模块安装，Hugo模块安装、手动文件复制。其中Git子模块链接到的是[Github源码](https://github.com/nunocoracao/blowfish)，并非放在[releases](https://github.com/nunocoracao/blowfish/releases)中稳定的版本，可能出现bug，**不建议使用**，~~笔者曾经被此硬控一下午~~；Hugo使用GO来初始化，使用前需确保安装GO，略显麻烦，**不建议使用**；手动文件复制，即在[releases](https://github.com/nunocoracao/blowfish/releases)中下载latest版本，然后将其复制到`themes`目录下，**建议使用**。
 
-### 配置
+### 配置模板
 
 按照[文档教程](https://blowfish.page/zh-cn/docs/installation/)，你的 `config` 目录看起来应该是这样：
 
@@ -121,46 +121,47 @@ Press Ctrl+C to stop
   {{<alert>}}可能需要通过`.gitignore`文件排除`public`文件夹{{</alert>}}
 
 - 创建存储**构建资源分支**，如`page`
+
 - 按照文档给出的Github page的[部署教程](https://blowfish.page/zh-cn/docs/hosting-deployment/#github-pages)，在`.github/workflows`中创建`gh-pages.yml`，并修改`publish_branch`为上一步的构建资源分支，内容如下：
 
-```yml
-# .github/workflows/gh-pages.yml
-
-name: GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build-deploy:
-    runs-on: ubuntu-20.04
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-          fetch-depth: 0
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: "latest"
-
-      - name: Build
-        run: hugo --minify
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: page
-          publish_dir: ./public
-```
+  ```yml
+  # .github/workflows/gh-pages.yml
+  
+  name: GitHub Pages
+  
+  on:
+    push:
+      branches:
+        - main
+  
+  jobs:
+    build-deploy:
+      runs-on: ubuntu-20.04
+      concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            submodules: true
+            fetch-depth: 0
+  
+        - name: Setup Hugo
+          uses: peaceiris/actions-hugo@v2
+          with:
+            hugo-version: "latest"
+  
+        - name: Build
+          run: hugo --minify
+  
+        - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+          if: ${{ github.ref == 'refs/heads/main' }}
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_branch: page
+            publish_dir: ./public
+  ```
 
 - 访问 Github 代码库的 **Settings > Pages** 部分，它应该被设置为构建资源分支
 
