@@ -3,7 +3,7 @@
 # https://blowfish.page/docs/getting-started/
 
 theme = "blowfish" # UNCOMMENT THIS LINE
-baseURL = "https://zhihengning.github.io/"
+baseURL = "https://zhihengning.github.io/blog"
 
 defaultContentLanguage = "zh-cn"
 
