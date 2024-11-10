@@ -1,3 +1,0 @@
-python KaTex_transfer.py
-echo transfer to KaTex success ...
-hugo serve
